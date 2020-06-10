@@ -85,7 +85,16 @@ def update_product(id):
 
     return product_schema.jsonify(product)
 
+@app.route('/product/<id>', methods=['DELETE'])
+def delete_product(id):
+    product = Product.query.get(id)
+    
+    db.session.delete(product)
+    db.session.commit()
 
+    message = {"Message": "The Product with ID: " + id+" was deleted!"}
+
+    return message
 
 #Run server 
 if __name__== '__main__': 
