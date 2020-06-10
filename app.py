@@ -65,7 +65,25 @@ def get_products():
     result = products_schema.dump(all_products)
     return jsonify(result)
 
+@app.route('/product/<id>', methods=['GET'])
+def get_product(id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
 
+
+#Update a Product
+@app.route('/product/<id>', methods=['PUT'])
+def update_product(id):
+    product = Product.query.get(id)
+
+    product.name = request.json['name']
+    product.description = request.json['description'] 
+    product.price = request.json['price']
+    product.quantity = request.json['quantity'] 
+
+    db.session.commit()
+
+    return product_schema.jsonify(product)
 
 
 
